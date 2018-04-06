@@ -5,8 +5,11 @@
  */
 package com.mycompany.mavenproject1.ui;
 
-import com.mycompany.mavenproject1.database.CountryDatabase;
-import com.mycompany.mavenproject1.database.CustomerDatabase;
+import com.mycompany.mavenproject1.dao.CountryDAO;
+import com.mycompany.mavenproject1.dao.CustomerDAO;
+
+
+
 
 /**
  *
@@ -14,8 +17,8 @@ import com.mycompany.mavenproject1.database.CustomerDatabase;
  */
 public class MainUI extends javax.swing.JFrame {
 
-    private CustomerDatabase customerDB;
-    private CountryDatabase countryDB;
+    private CustomerDAO customerDAO;
+    private CountryDAO countryDAO;
     
     /**
      * Creates new form MainWindow
@@ -23,8 +26,8 @@ public class MainUI extends javax.swing.JFrame {
     public MainUI() {
         initComponents();
         
-        customerDB = new CustomerDatabase();
-        countryDB = new CountryDatabase();
+        customerDAO = new CustomerDAO();
+        countryDAO = new CountryDAO();
     }
 
     /**
@@ -64,11 +67,11 @@ public class MainUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void countrybtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_countrybtActionPerformed
-        new CountryUI(countryDB).setVisible(true);
+        new CountryUI(countryDAO).setVisible(true);
     }//GEN-LAST:event_countrybtActionPerformed
 
     private void customerbtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerbtActionPerformed
-        new CustomerUI(customerDB, countryDB).setVisible(true);
+        new CustomerUI(customerDAO, countryDAO).setVisible(true);
     }//GEN-LAST:event_customerbtActionPerformed
 
     /**
