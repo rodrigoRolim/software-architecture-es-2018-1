@@ -4,13 +4,14 @@ import com.mycompany.mavenproject1.data.Country;
 import com.mycompany.mavenproject1.data.Customer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class CustomerDAOTest {
 
     private CustomerDAO dao = new CustomerDAO();
 
-    // @BeforeClass
-    private static Customer createEntity() {
+    public Customer createEntity() {
         
         Country country = new Country();
         country.setAcronym("BR");
@@ -43,7 +44,7 @@ public class CustomerDAOTest {
         return c;
     }
 
-    private void persistEntity() {
+    public void persistEntity() {
         Customer c = createEntity();
 
         try {
@@ -54,26 +55,27 @@ public class CustomerDAOTest {
         }
     }
 
-    // @Test
-    void create() {
+    @Test
+    public void create() {
 
         persistEntity();
 
-        // Assertion
+        Assert.assertEquals("Andrew", dao.readByName("Andrew").getName());
     }
 
-    // @Test
-    void read() {
+    @Test
+    public void read() {
         persistEntity();
 
         dao.readAll();
         dao.readByName("Andrew");
 
-        // Assertion
+        Assert.assertTrue(dao.readAll().size() == 1);
+        Assert.assertTrue(dao.readByName("Andrew").getAge() == 21);
     }
 
-    // @Test
-    void update() {
+    @Test
+    public void update() {
         persistEntity();
 
         Customer c = createEntity();
@@ -86,15 +88,15 @@ public class CustomerDAOTest {
             Logger.getLogger(CustomerDAOTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        // Assertion
+        Assert.assertTrue(dao.readByName("Andrew").getAge() == 56);
     }
 
-    // @Test
-    void delete() {
+    @Test
+    public void delete() {
         persistEntity();
 
         dao.delete("Andrew");
 
-        // Assertion
+        Assert.assertTrue(dao.readAll().size() == 0);
     }
 }

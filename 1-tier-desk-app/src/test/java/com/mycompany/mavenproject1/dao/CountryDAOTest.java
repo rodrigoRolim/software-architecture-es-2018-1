@@ -4,15 +4,14 @@ import com.mycompany.mavenproject1.data.Country;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 public class CountryDAOTest {
 
     private CountryDAO dao = new CountryDAO();
 
-    @BeforeClass
-    private static Country createEntity() {
+    public Country createEntity() {
         Country c = new Country();
         c.setName("Brazil");
         c.setAcronym("BR");
@@ -21,7 +20,7 @@ public class CountryDAOTest {
         return c;
     }
 
-    private void persistEntity() {
+    public void persistEntity() {
         Country c = createEntity();
 
         try {
@@ -33,26 +32,24 @@ public class CountryDAOTest {
     }
 
     @Test
-    void create() {
+    public void create() {
 
         persistEntity();
 
-        Assert.assertEquals("Brazil", dao.readByName("Brazil"));
+        Assert.assertEquals("Brazil", dao.readByName("Brazil").getName());
     }
 
     @Test
-    void read() {
+    public void read() {
         persistEntity();
 
-        dao.readAll();
-        dao.readByName("Brazil");
-        dao.readByAcronym("BR");
-
-        // Assertion
+        Assert.assertTrue(dao.readAll().size() == 1);
+        Assert.assertEquals(dao.readByName("Brazil").getAcronym(), "BR");
+        Assert.assertEquals(dao.readByAcronym("BR").getName(), "Brazil");
     }
 
     @Test
-    void update() {
+    public void update() {
         persistEntity();
 
         Country c = createEntity();
@@ -60,15 +57,15 @@ public class CountryDAOTest {
 
         dao.update(c, "Brazil");
 
-        // Assertion
+        Assert.assertTrue(dao.readByName("Brazil").getDigits() == 8);
     }
 
     @Test
-    void delete() {
+    public void delete() {
         persistEntity();
 
         dao.delete("Brazil");
 
-        // Assertion
+         Assert.assertTrue(dao.readAll().size() == 0);
     }
 }
