@@ -3,6 +3,7 @@ package com.mycompany.mavenproject1.dao;
 import com.mycompany.mavenproject1.data.Country;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +21,7 @@ public class CountryDAOTest {
         return c;
     }
 
+    // @Before
     public void persistEntity() {
         Country c = createEntity();
 
@@ -31,41 +33,41 @@ public class CountryDAOTest {
         }
     }
 
-    @Test
-    public void create() {
-
-        persistEntity();
-
-        Assert.assertEquals("Brazil", dao.readByName("Brazil").getName());
+    // @After
+    public void deleteEntity() {
+        dao.delete("Brazil");
+        
     }
 
-    @Test
-    public void read() {
-        persistEntity();
+//    @Test
+//    public void create() {
+//        persistEntity();
+//        
+//        Assert.assertEquals("Brazil", dao.readByName("Brazil").getName());
+//    }
 
-        Assert.assertTrue(dao.readAll().size() == 1);
-        Assert.assertEquals(dao.readByName("Brazil").getAcronym(), "BR");
-        Assert.assertEquals(dao.readByAcronym("BR").getName(), "Brazil");
-    }
-
-    @Test
-    public void update() {
-        persistEntity();
-
-        Country c = createEntity();
-        c.setDigits(8);
-
-        dao.update(c, "Brazil");
-
-        Assert.assertTrue(dao.readByName("Brazil").getDigits() == 8);
-    }
-
+//    @Test
+//    public void read() {
+//        Assert.assertTrue(dao.readAll().size() == 1);
+//        Assert.assertEquals(dao.readByName("Brazil").getAcronym(), "BR");
+//        Assert.assertEquals(dao.readByAcronym("BR").getName(), "Brazil");
+//        Assert.assertEquals(dao.readById(1).getName(), "Brazil");
+//    }
+//
+//    @Test
+//    public void update() {
+//        Country c = dao.readById(1);
+//        c.setDigits(8);
+//
+//        dao.update(c, "Brazil");
+//
+//        Assert.assertTrue(dao.readByName("Brazil").getDigits() == 8);
+//    }
+//
     @Test
     public void delete() {
-        persistEntity();
-
         dao.delete("Brazil");
 
-         Assert.assertTrue(dao.readAll().size() == 0);
+        Assert.assertTrue(dao.readAll().size() == 0);
     }
 }
