@@ -13,16 +13,16 @@ public class CustomerDAOTest {
 
     public Customer createEntity() {
         
-        Country country = new Country();
-        country.setAcronym("BR");
-        country.setDigits(3);
-        country.setName("Brazil");
+//        CountryDAOTest daoTest = new CountryDAOTest();
+//        daoTest.persistEntity();
         
+        Country country = new CountryDAO().readByName("Brazil");        
         Customer c = new Customer();
         c.setAge(21);
         
         try {
             c.setCountry(country);
+            
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAOTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -31,12 +31,14 @@ public class CustomerDAOTest {
         
         try {
             c.setName("Andrew");
+            
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAOTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         try {
             c.setPhone("123");
+            
         } catch (Exception ex) {
             Logger.getLogger(CustomerDAOTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -55,46 +57,38 @@ public class CustomerDAOTest {
         }
     }
 
-    @Test
-    public void create() {
+//    @Test
+//    public void create() {
+//
+//        persistEntity();
+//
+//         Assert.assertEquals(dao.readByName("Andrew").getName(), "Andrew");
+//    }
 
-        persistEntity();
-
-        Assert.assertEquals("Andrew", dao.readByName("Andrew").getName());
-    }
-
-    @Test
-    public void read() {
-        persistEntity();
-
-        dao.readAll();
-        dao.readByName("Andrew");
-
-        Assert.assertTrue(dao.readAll().size() == 1);
-        Assert.assertTrue(dao.readByName("Andrew").getAge() == 21);
-    }
-
-    @Test
-    public void update() {
-        persistEntity();
-
-        Customer c = createEntity();
-        c.setAge(56);
-
-        try {
-            dao.update(c, "Andrew");
-            
-        } catch (Exception ex) {
-            Logger.getLogger(CustomerDAOTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        Assert.assertTrue(dao.readByName("Andrew").getAge() == 56);
-    }
-
+//    @Test
+//    public void read() {
+//
+//        Assert.assertEquals(dao.readByName("Andrew").getName(), "Andrew");
+//    }
+//
+//    @Test
+//    public void update() {
+//
+//        Customer c = dao.readByName("Andrew");
+//        c.setAge(56);
+//
+//        try {
+//            dao.update(c, "Andrew");
+//            
+//        } catch (Exception ex) {
+//            Logger.getLogger(CustomerDAOTest.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        
+//        Assert.assertTrue(dao.readByName("Andrew").getAge() == 56);
+//    }
+//
     @Test
     public void delete() {
-        persistEntity();
-
         dao.delete("Andrew");
 
         Assert.assertTrue(dao.readAll().size() == 0);

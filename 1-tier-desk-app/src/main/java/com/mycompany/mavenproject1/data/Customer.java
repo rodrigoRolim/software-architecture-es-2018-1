@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class Customer {
     
+    private int id;
     private String name;
     private int age;
     private String phone;
@@ -13,6 +14,14 @@ public class Customer {
     public Customer() {
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getName() {
         return name;
     }

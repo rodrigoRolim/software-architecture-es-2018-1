@@ -64,10 +64,10 @@ public class CountryDAOTest {
 //        Assert.assertTrue(dao.readByName("Brazil").getDigits() == 8);
 //    }
 //
-    @Test
-    public void delete() {
-        dao.delete("Brazil");
-
-        Assert.assertTrue(dao.readAll().size() == 0);
-    }
+//    @Test
+//    public void delete() {
+//        dao.delete("Brazil");
+//
+//        Assert.assertTrue(dao.readAll().size() == 0);
+//    }
 }

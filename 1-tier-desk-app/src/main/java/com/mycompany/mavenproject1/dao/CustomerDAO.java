@@ -3,54 +3,142 @@ package com.mycompany.mavenproject1.dao;
 import java.util.Set;
 
 import com.mycompany.mavenproject1.data.Customer;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashSet;
 
 public class CustomerDAO {
 
-    private Set<Customer> customerDB;
-
-    public CustomerDAO() {
-        super();
-
-        this.customerDB = new HashSet<>();
-    }
+    private String dbURL = "jdbc:mysql://localhost:3306/saapp";
+    private String username = "root";
+    private String password = "gabriel";
 
     public void create(Customer customer) throws Exception {
-        if (customerDB.add(customer) == false)
-            throw new Exception("Customer already exists");
-    }
+        try (Connection conn = DriverManager.getConnection(dbURL, username, password)) {
 
-    public Customer readByName(String name) {
-        return customerDB.
-                        stream().
-                        filter(
-                            customer -> customer.getName().
-                                                equalsIgnoreCase(name)).
-                        findAny().
-                        get();
-    }
+            String sql = "INSERT INTO customer (name, phone, age, country_id, creditLimit) VALUES (?, ?, ?, ?, ?)";
 
-    public Set<Customer> readAll() {
-        return customerDB;
-    }
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, customer.getName());
+            statement.setString(2, customer.getPhone());
+            statement.setInt(3, customer.getAge());
+            statement.setInt(4, customer.getCountry().getId());
+            statement.setDouble(5, customer.getCreditLimit());
 
-    public void update (Customer newCustomer, String name) throws Exception {
-        Customer currentCustomer = this.readByName(name);
+            int rowsInserted = statement.executeUpdate();
 
-        if (currentCustomer != null) {
-            currentCustomer.setName(newCustomer.getName());
-            currentCustomer.setAge(newCustomer.getAge());
-            currentCustomer.setCountry(newCustomer.getCountry());
-            currentCustomer.setPhone(newCustomer.getPhone());
-            currentCustomer.setCreditLimit(newCustomer.getCreditLimit());
+            if (rowsInserted == 0) {
+                throw new RuntimeException("Customer could not be persisted!");
+            }
+
+        } catch (SQLException ex) {
+            throw new Exception(ex);
+
         }
     }
 
-    public void delete (String name) {
-        Customer currentCustomer = this.readByName(name);
+    public Customer readById(int id) {
+        return this.readAll().
+                stream().
+                filter(
+                        customer -> customer.getId() == id).
+                findAny().
+                get();
+    }
 
-        if (currentCustomer != null) 
-            customerDB.removeIf(customer -> customer.equals(currentCustomer));
+    public Customer readByName(String name) {
+        return this.readAll().
+                stream().
+                filter(
+                        customer -> customer.getName().
+                                equalsIgnoreCase(name)).
+                findAny().
+                get();
+    }
+
+    public Set<Customer> readAll() {
+
+        Set<Customer> resultSet = new HashSet<>();
+
+        try (Connection conn = DriverManager.getConnection(dbURL, username, password)) {
+
+            String sql = "SELECT * FROM customer";
+
+            Statement statement = conn.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+
+            Customer customer = null;
+
+            while (result.next()) {
+                customer = new Customer();
+                customer.setId(result.getInt("id"));
+                customer.setAge(result.getInt("age"));
+                customer.setName(result.getString("name"));
+                customer.setCountry(new CountryDAO().readById(result.getInt("country_id")));
+                customer.setPhone(result.getString("phone"));
+                customer.setCreditLimit(result.getDouble("creditLimit"));
+                
+                resultSet.add(customer);
+
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+
+        } catch (Exception ex) {
+            // Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return resultSet;
+    }
+
+    public void update(Customer newCustomer, String name) throws Exception {
+        try (Connection conn = DriverManager.getConnection(dbURL, username, password)) {
+
+            String sql = "UPDATE customer SET name=?, age=?, country_id=?, phone=?, creditLimit=? WHERE name like ?";
+
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, newCustomer.getName());
+            statement.setInt(2, newCustomer.getAge());
+            statement.setInt(3, newCustomer.getCountry().getId());
+            statement.setString(4, newCustomer.getPhone());
+            statement.setDouble(5, newCustomer.getCreditLimit());
+            statement.setString(6, name);
+
+            int rowsInserted = statement.executeUpdate();
+
+            if (rowsInserted == 0) {
+                throw new RuntimeException("Customer could not be updated!");
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+
+        }
+    }
+
+    public void delete(String name) {
+        try (Connection conn = DriverManager.getConnection(dbURL, username, password)) {
+
+            String sql = "DELETE FROM customer WHERE name like ?";
+
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, name);
+
+            int rowsDeleted = statement.executeUpdate();
+
+            if (rowsDeleted == 0) {
+                throw new RuntimeException("Customer could not be deleted!");
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+
+        }
     }
 
 }
