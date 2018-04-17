@@ -87,10 +87,10 @@ public class CustomerDAOTest {
 //        Assert.assertTrue(dao.readByName("Andrew").getAge() == 56);
 //    }
 //
-    @Test
-    public void delete() {
-        dao.delete("Andrew");
-
-        Assert.assertTrue(dao.readAll().size() == 0);
-    }
+//    @Test
+//    public void delete() {
+//        dao.delete("Andrew");
+//
+//        Assert.assertTrue(dao.readAll().size() == 0);
+//    }
 }
