@@ -1,24 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.mavenproject1.ui;
 
-import com.mycompany.mavenproject1.dao.CountryDAO;
-import com.mycompany.mavenproject1.dao.CustomerDAO;
+import com.mycompany.mavenproject1.business.CountryBusiness;
+import com.mycompany.mavenproject1.business.CustomerBusiness;
 import com.mycompany.mavenproject1.data.Country;
 import com.mycompany.mavenproject1.data.Customer;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author gabriel
- */
 public class CustomerUI extends javax.swing.JFrame {
 
-    private CountryDAO countryDAO;
-    private CustomerDAO customerDAO;
+    private CountryBusiness countryBusiness;
+    private CustomerBusiness customerBusiness;
     
     private Country selectedCountry;
 
@@ -29,13 +20,13 @@ public class CustomerUI extends javax.swing.JFrame {
         initComponents();
     }
 
-    CustomerUI(CustomerDAO customerDAO, CountryDAO countryDAO) {
+    CustomerUI(CustomerBusiness customerBusiness, CountryBusiness countryBusiness) {
         this();
 
-        this.customerDAO = customerDAO;
-        this.countryDAO = countryDAO;
+        this.customerBusiness = customerBusiness;
+        this.countryBusiness = countryBusiness;
 
-        this.countryDAO.readAll().forEach(item -> countrycombo.addItem(item.getName()));
+        this.countryBusiness.readAll().forEach(item -> countrycombo.addItem(item.getName()));
     }
 
     /**
@@ -126,7 +117,7 @@ public class CustomerUI extends javax.swing.JFrame {
 
     private void listbtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listbtActionPerformed
 
-        listarea.setText(customerDAO.readAll().toString());
+        listarea.setText(customerBusiness.readAll().toString());
     }//GEN-LAST:event_listbtActionPerformed
 
     private void nametxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nametxtActionPerformed
@@ -161,7 +152,7 @@ public class CustomerUI extends javax.swing.JFrame {
         c.setCreditLimit(0);
 
         try {
-            customerDAO.create(c);
+            customerBusiness.create(c);
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
@@ -170,7 +161,7 @@ public class CustomerUI extends javax.swing.JFrame {
 
     private void countrycomboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_countrycomboActionPerformed
 
-        for (Country currentCountry : countryDAO.readAll()) {
+        for (Country currentCountry : countryBusiness.readAll()) {
             if (currentCountry.getName().equalsIgnoreCase((String) countrycombo.getSelectedItem())) {
                 selectedCountry = currentCountry;
             }

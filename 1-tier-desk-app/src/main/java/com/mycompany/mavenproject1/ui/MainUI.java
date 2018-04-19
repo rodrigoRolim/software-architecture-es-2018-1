@@ -1,33 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.mavenproject1.ui;
 
-import com.mycompany.mavenproject1.dao.CountryDAO;
-import com.mycompany.mavenproject1.dao.CustomerDAO;
+import com.mycompany.mavenproject1.business.CountryBusiness;
+import com.mycompany.mavenproject1.business.CustomerBusiness;
 
 
-
-
-/**
- *
- * @author gabriel
- */
 public class MainUI extends javax.swing.JFrame {
 
-    private CustomerDAO customerDAO;
-    private CountryDAO countryDAO;
-    
+    private CustomerBusiness customerBusiness;
+    private CountryBusiness countryBusiness;
+
     /**
      * Creates new form MainWindow
      */
     public MainUI() {
         initComponents();
-        
-        customerDAO = new CustomerDAO();
-        countryDAO = new CountryDAO();
+
+        customerBusiness = new CustomerBusiness();
+        countryBusiness = new CountryBusiness();
     }
 
     /**
@@ -67,11 +56,11 @@ public class MainUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void countrybtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_countrybtActionPerformed
-        new CountryUI(countryDAO).setVisible(true);
+        new CountryUI(countryBusiness).setVisible(true);
     }//GEN-LAST:event_countrybtActionPerformed
 
     private void customerbtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerbtActionPerformed
-        new CustomerUI(customerDAO, countryDAO).setVisible(true);
+        new CustomerUI(customerBusiness, countryBusiness).setVisible(true);
     }//GEN-LAST:event_customerbtActionPerformed
 
     /**
