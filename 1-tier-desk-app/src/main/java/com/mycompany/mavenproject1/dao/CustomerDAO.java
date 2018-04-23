@@ -3,8 +3,7 @@ package com.mycompany.mavenproject1.dao;
 import java.util.Set;
 
 import com.mycompany.mavenproject1.data.Customer;
-import java.sql.Connection;
-import java.sql.DriverManager;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

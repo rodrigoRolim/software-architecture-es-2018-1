@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class CountryBusiness {
     
-    private CountryDAO dao;
+    private final CountryDAO dao;
 
     public CountryBusiness() {
         dao = new CountryDAO();

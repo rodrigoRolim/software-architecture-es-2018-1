@@ -6,8 +6,8 @@ import com.mycompany.mavenproject1.data.Country;
 import com.mycompany.mavenproject1.data.Customer;
 
 public class FacadeCountryCustomer {
-  private CountryBusiness countryBusiness;
-  private CustomerBusiness customerBusiness;
+  private final CountryBusiness countryBusiness;
+  private final CustomerBusiness customerBusiness;
 
   public FacadeCountryCustomer() {
     this.countryBusiness = new CountryBusiness();

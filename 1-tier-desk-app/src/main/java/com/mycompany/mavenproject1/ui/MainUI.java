@@ -1,9 +1,6 @@
 package com.mycompany.mavenproject1.ui;
 
-import com.mycompany.mavenproject1.business.CountryBusiness;
-import com.mycompany.mavenproject1.business.CustomerBusiness;
 import com.mycompany.mavenproject1.business.FacadeCountryCustomer;
-
 
 public class MainUI extends javax.swing.JFrame {
 
