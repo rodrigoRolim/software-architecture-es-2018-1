@@ -63,9 +63,6 @@ public class Customer {
         this.creditLimit = creditLimit;
  
     }
-    
-
-
     public void setCountry(Country country) throws Exception {
         
         if (country == null)

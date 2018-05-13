@@ -1,0 +1,12 @@
+@startuml
+package UI
+package BUSINESS
+package DAO
+package DATA
+
+UI ..> BUSINESS
+BUSINESS ..> DAO
+UI ..> DATA
+BUSINESS ..> DATA
+DAO ..> DATA
+@enduml
